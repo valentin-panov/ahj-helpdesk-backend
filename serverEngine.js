@@ -1,4 +1,3 @@
-const http = require('http');
 const Koa = require('koa');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
