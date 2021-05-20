@@ -1,5 +1,5 @@
 function generateId() {
-  return `${new Date().getTime()}-${Math.random()}`;
+  return `${Date.now()}-${Math.random()}`;
 }
 
 exports.generateId = generateId;

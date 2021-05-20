@@ -1,8 +1,8 @@
 {
   "name": "ahj-helpdesk-backend",
   "version": "1.0.0",
-  "description": "Правила сдачи задания:",
-  "main": "webpack.config.js",
+  "description": "HelpDesk BackEnd",
+  "main": "index.js",
   "scripts": {
     "prestart": "npm install",
     "start": "node index.js",

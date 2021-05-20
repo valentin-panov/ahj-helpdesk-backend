@@ -2,6 +2,7 @@ const Koa = require('koa');
 const cors = require('@koa/cors');
 const koaBody = require('koa-body');
 const idGenerator = require('./idGenerator');
+const formatDate = require('./formatDate');
 
 const tickets = [
   {
@@ -9,21 +10,22 @@ const tickets = [
     name: 'Поменять краску в принтере, ком. 404',
     description: 'Принтер HP LJ 1210, картриджи на складе',
     status: false,
-    created: Date.now(),
+    created: formatDate(new Date()),
   },
   {
     id: idGenerator.generateId(),
     name: 'Переустановить Windows, ПК-Hall24',
     description: 'Развернуть образ и закрыть все админские права',
     status: false,
-    created: Date.now(),
+    created: formatDate(new Date()),
   },
   {
     id: idGenerator.generateId(),
     name: 'Установить обновление KB-XXX',
-    description: 'Накатить и включить уже автоматические апдейты',
+    description:
+      'Вышло критическое обновление Windows, нужно поставить обновления в следующем приоритете:<br>1. Сервера (не забыть сделать бэкап!)<br>2. Рабочие станции',
     status: false,
-    created: Date.now(),
+    created: formatDate(new Date()),
   },
 ];
 
@@ -48,7 +50,7 @@ serverEngine.use(async (ctx) => {
         name: newTicketData.name,
         status: false,
         description: newTicketData.description || '',
-        created: Date.now(),
+        created: formatDate(Date.now()),
       };
       tickets.push(newTicket);
       ctx.response.body = [newTicket];
@@ -61,7 +63,6 @@ serverEngine.use(async (ctx) => {
     case 'updateById':
       const updIndex = tickets.findIndex((ticket) => ticket.id === id);
       const updTicketData = JSON.parse(ctx.request.body);
-      // ! strange logic
       const ticket = {
         ...tickets[updIndex],
         ...updTicketData,
