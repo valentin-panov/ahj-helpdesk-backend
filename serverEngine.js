@@ -31,7 +31,14 @@ const tickets = [
 
 const serverEngine = new Koa();
 
-serverEngine.use(cors());
+serverEngine.use(
+  cors({
+    origin: '*',
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  })
+);
 serverEngine.use(koaBody({ urlencoded: true, multipart: true }));
 
 serverEngine.use(async (ctx) => {
