@@ -35,7 +35,16 @@ serverEngine.use(
   cors({
     origin: '*',
     credentials: true,
-    allowMethods: ['GET', 'POST', 'DELETE', 'allTickets'],
+    allowMethods: [
+      'GET',
+      'POST',
+      'DELETE',
+      'allTickets',
+      'createTicket',
+      'deleteById',
+      'updateById',
+      'ticketById',
+    ],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
   })
 );
