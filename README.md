@@ -1,7 +1,6 @@
+HEROKU: https://vp-ahj-helpdesk.herokuapp.com/
+
 Правила сдачи задания:
-
-[![Build status](https://ci.appveyor.com/api/projects/status/fm4gkjt1ye0hl8dl?svg=true)](https://ci.appveyor.com/project/vapanov/ahj-http)
-
 
 1. **Важно**: в рамках этого ДЗ можно использовать npm (а значит, никакого `yarn.lock` в репозитории быть не должно)
 1. Frontend должен собираться через Webpack (включая картинки и стили) и выкладываться на Github Pages через Appveyor
@@ -22,6 +21,7 @@
 #### Описание
 
 Для хранения данных мы будем оперировать следующими структурами:
+
 ```javascript
 Ticket {
     id // идентификатор (уникальный в пределах системы)
@@ -40,14 +40,16 @@ TicketFull {
 ```
 
 Напишите сервер с использованием koa, который работает по следующей схеме:
-* GET    ?method=allTickets           - список тикетов
-* GET    ?method=ticketById&id=`<id>` - полное описание тикета (где `<id>` - идентификатор тикета)
-* POST   ?method=createTicket         - создание тикета (`<id>` генерируется на сервере, в теле формы `name`, `description`, `status`)
+
+- GET ?method=allTickets - список тикетов
+- GET ?method=ticketById&id=`<id>` - полное описание тикета (где `<id>` - идентификатор тикета)
+- POST ?method=createTicket - создание тикета (`<id>` генерируется на сервере, в теле формы `name`, `description`, `status`)
 
 Соответственно:
-* GET    ?method=allTickets           - массив объектов типа `Ticket` (т.е. без `description`)
-* GET    ?method=ticketById&id=`<id>` - объект типа `TicketFull` (т.е. с `description`)
-* POST   ?method=createTicket         - в теле запроса форма с полями для объекта типа `Ticket` (с `id` = `null`)
+
+- GET ?method=allTickets - массив объектов типа `Ticket` (т.е. без `description`)
+- GET ?method=ticketById&id=`<id>` - объект типа `TicketFull` (т.е. с `description`)
+- POST ?method=createTicket - в теле запроса форма с полями для объекта типа `Ticket` (с `id` = `null`)
 
 Сервер необходимо развернуть на Heroku. Авто-тесты писать не нужно.
 
@@ -56,34 +58,36 @@ TicketFull {
 Для упрощения тестирования можете при старте сервера добавлять туда несколько тикетов.
 
 Для того, чтобы с сервера отдавать данные, достаточно в обработчиках koa написать:
+
 ```js
 const tickets = [];
 
-app.use(async ctx => {
-    const { method } = ctx.request.query; // важно: в лекции опечатка, должно быть query
+app.use(async (ctx) => {
+  const { method } = ctx.request.query; // важно: в лекции опечатка, должно быть query
 
-    switch (method) {
-        case 'allTickets':
-            ctx.response.body = tickets;
-            return;
-        // TODO: обработка остальных методов
-        default:
-            ctx.response.status = 404;
-            return;
-    }
+  switch (method) {
+    case 'allTickets':
+      ctx.response.body = tickets;
+      return;
+    // TODO: обработка остальных методов
+    default:
+      ctx.response.status = 404;
+      return;
+  }
 });
 ```
 
 Для того, чтобы обработать полученный ответ во Frontend, достаточно вот этого кода:
+
 ```js
 xhr.addEventListener('load', () => {
-    if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-            const data = JSON.parse(xhr.responseText);
-        } catch (e) {
-            console.error(e);
-        }
+  if (xhr.status >= 200 && xhr.status < 300) {
+    try {
+      const data = JSON.parse(xhr.responseText);
+    } catch (e) {
+      console.error(e);
     }
+  }
 });
 ```
 
@@ -138,6 +142,7 @@ P.S. Подгрузка подробного описания специальн
 #### Описание
 
 Напишите серверную часть с использованием 'koa' (по аналогии с тем, как это было на лекции), но докрутите туда:
+
 1. Хранение списка картинок - предложите, как отдавать его на клиент (возможно, JSON?)
 1. Удаление картинок с сервера (при нажатии на кнопку удалить с клиента)
 
@@ -152,6 +157,7 @@ P.S. Подгрузка подробного описания специальн
 ![](./pic/image.png)
 
 Обратите внимание на несколько важных моментов:
+
 1. Ваш менеджер картинок должен по-прежнему поддерживать drag and drop и загрузку по клику
 1. Сервер на Heroku в бесплатной редакции "засыпает", при этом удаляются ваши файлы и то, что хранится в памяти (в этом нет ничего страшного, но это не должно быть для вас сюрпризом)
 1. Не загружайте больших картинок (более 1Мб): на всех серверах установлены ограничения, мы для упрощения этот момент опускаем
