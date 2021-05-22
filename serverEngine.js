@@ -38,6 +38,7 @@ serverEngine.use(
       'GET',
       'POST',
       'DELETE',
+      'OPTIONS',
       'allTickets',
       'createTicket',
       'deleteById',
