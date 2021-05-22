@@ -34,7 +34,6 @@ const serverEngine = new Koa();
 serverEngine.use(
   cors({
     origin: '*',
-    credentials: true,
     allowMethods: [
       'GET',
       'POST',
@@ -45,7 +44,7 @@ serverEngine.use(
       'updateById',
       'ticketById',
     ],
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    allowHeaders: ['Content-Type'],
   })
 );
 serverEngine.use(koaBody({ urlencoded: true, multipart: true }));
